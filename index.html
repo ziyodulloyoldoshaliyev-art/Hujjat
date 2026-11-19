@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qisqartma — Hujjatlar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<button id="burger" aria-label="Menyuni ochish">☰</button>
+<span class="logo">Qisqartma</span>
+<input id="q" type="search" placeholder="Hujjatlardan qidirish..." aria-label="Qidiruv">
+<button id="theme" aria-label="Mavzuni almashtirish">🌙</button>
+</header>
+
+<div class="wrap">
+<nav id="nav">
+<a href="#kirish">Kirish</a>
+<a href="#ornatish">O'rnatish</a>
+<a href="#foydalanish">Foydalanish</a>
+<a href="#api">API</a>
+<a class="sub" href="#api-create">POST /links</a>
+<a class="sub" href="#api-get">GET /links/:id</a>
+<a class="sub" href="#api-delete">DELETE /links/:id</a>
+<a href="#faq">FAQ</a>
+</nav>
+
+<main>
+<section id="kirish">
+<h1>Qisqartma hujjatlari</h1>
+<p class="lead">Qisqartma uzun URL manzillarni qisqa havolaga aylantiruvchi xizmat. Havola necha marta ochilganini ham ko'rsatadi.</p>
+<p>Xizmatdan veb-sayt orqali yoki o'z dasturingizdan API orqali foydalanishingiz mumkin. Bu hujjat o'rnatish, ishlatish va API haqida qisqacha tushuntiradi.</p>
+<div class="note">Bu namunaviy loyiha. Hujjat tuzilishi har qanday dastur uchun mos keladi.</div>
+</section>
+
+<section id="ornatish">
+<h2>O'rnatish</h2>
+<p>Dastur Node.js 18 yoki undan yuqori versiyani talab qiladi.</p>
+<h3>1. Loyihani yuklab oling</h3>
+<pre><button class="copy">Nusxa</button><code>git clone https://github.com/misol/qisqartma.git
+cd qisqartma</code></pre>
+<h3>2. Kutubxonalarni o'rnating</h3>
+<pre><button class="copy">Nusxa</button><code>npm install</code></pre>
+<h3>3. Serverni ishga tushiring</h3>
+<pre><button class="copy">Nusxa</button><code>npm start</code></pre>
+<p>Server <code>http://localhost:3000</code> manzilida ochiladi.</p>
+</section>
+
+<section id="foydalanish">
+<h2>Foydalanish</h2>
+<p>Asosiy sahifadagi maydonga uzun havolani kiriting va <code>Qisqartirish</code> tugmasini bosing. Tayyor havola nusxalash uchun pastda chiqadi.</p>
+<h3>Sozlamalar</h3>
+<p>Sozlamalar <code>.env</code> faylida saqlanadi.</p>
+<table>
+<tr><th>Nomi</th><th>Standart</th><th>Tavsif</th></tr>
+<tr><td><code>PORT</code></td><td>3000</td><td>Server porti</td></tr>
+<tr><td><code>BASE_URL</code></td><td>http://localhost:3000</td><td>Qisqa havolaning bosh manzili</td></tr>
+<tr><td><code>EXPIRE_DAYS</code></td><td>365</td><td>Havola necha kun amal qiladi</td></tr>
+</table>
+</section>
+
+<section id="api">
+<h2>API</h2>
+<p>Barcha so'rovlar JSON formatida ishlaydi. Manzil: <code>https://api.qisqartma.uz/v1</code></p>
+
+<h3 id="api-create">POST /links</h3>
+<p>Yangi qisqa havola yaratadi.</p>
+<pre><button class="copy">Nusxa</button><code>curl -X POST https://api.qisqartma.uz/v1/links \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com/juda/uzun/manzil"}'</code></pre>
+<p>Javob:</p>
+<pre><button class="copy">Nusxa</button><code>{
+  "id": "a1b2c3",
+  "short": "https://qsq.uz/a1b2c3",
+  "clicks": 0
+}</code></pre>
+
+<h3 id="api-get">GET /links/:id</h3>
+<p>Havola ma'lumotini va ochilganlar sonini qaytaradi.</p>
+<pre><button class="copy">Nusxa</button><code>curl https://api.qisqartma.uz/v1/links/a1b2c3</code></pre>
+
+<h3 id="api-delete">DELETE /links/:id</h3>
+<p>Havolani o'chiradi. Muvaffaqiyatli bo'lsa <code>204</code> kodi qaytadi.</p>
+
+<h3>Xato kodlari</h3>
+<table>
+<tr><th>Kod</th><th>Ma'nosi</th></tr>
+<tr><td><code>400</code></td><td>URL noto'g'ri formatda</td></tr>
+<tr><td><code>404</code></td><td>Havola topilmadi</td></tr>
+<tr><td><code>429</code></td><td>So'rovlar juda ko'p, biroz kuting</td></tr>
+</table>
+</section>
+
+<section id="faq">
+<h2>FAQ</h2>
+<details><summary>Qisqa havola muddati tugaydimi?</summary><p>Standart holatda 365 kun amal qiladi. Muddatni <code>EXPIRE_DAYS</code> sozlamasi bilan o'zgartirish mumkin.</p></details>
+<details><summary>Havolani o'zgartirsa bo'ladimi?</summary><p>Yo'q. Havolani o'chirib, yangisini yaratish kerak.</p></details>
+<details><summary>Xizmat bepulmi?</summary><p>Ha, dastur ochiq kodli va bepul ishlatiladi.</p></details>
+<details><summary>Xato topsam nima qilaman?</summary><p>GitHub'dagi loyiha sahifasida Issue oching va muammoni yozing.</p></details>
+</section>
+
+<p id="empty">Hech narsa topilmadi. Boshqa so'z bilan urinib ko'ring.</p>
+</main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
